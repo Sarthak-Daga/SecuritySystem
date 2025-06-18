@@ -27,6 +27,7 @@ bool folderExists(const string &folder)
   struct stat buffer;
   return (stat(folder.c_str(), &buffer) == 0);
 }
+
 string Starting()
 {
   cout << "Making a new Folder, Enter the name: \n";
@@ -56,35 +57,14 @@ int main()
   }
   infile.close();
 
-  if (!exist)
-  {
-    cout << "Currently the folder is unlockled" << endl;
-    cout << "Setup Password" << endl
-         << "New Password : ";
-    getline(cin, userPassword);
+  cout << "Currently the folder is unlockled" << endl;
+  cout << "Setup Password" << endl
+       << "New Password : ";
+  getline(cin, userPassword);
 
-    ofstream outfile(fileName + "/lockInfo.txt");
-    outfile << sha256(userPassword);
-    outfile.close();
-    system(("attrib +h +s " + fileName).c_str());
-    cout << "Password set sucessfully";
-  }
-  else
-  {
-    cout << "Password: ";
-    getline(cin, userPassword);
-    if (sha256(userPassword) == savedPassword)
-    {
-      cout << "Folder Now unlocked!" << endl;
-      system(("start " + fileName).c_str());
-    }
-    else
-    {
-      cout << "Wrong Password!!";
-    }
-  }
-  cout << endl;
-  system("pause");
-
-  return 0;
+  ofstream outfile(fileName + "/lockInfo.txt");
+  outfile << sha256(userPassword);
+  outfile.close();
+  system(("attrib +h +s " + fileName).c_str());
+  cout << "Password set sucessfully";
 }
